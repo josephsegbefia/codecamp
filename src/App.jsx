@@ -10,6 +10,7 @@ import SignupForm from './components/auth/SignupForm';
 import LoginForm from './components/auth/LoginForm';
 import PasswordResetReqForm from './components/auth/PasswordResetReqForm';
 import PasswordResetForm from './components/auth/PasswordResetForm';
+import Landing from './components/userHome/Landing';
 
 function App() {
   const routes = RoutesComp();
@@ -28,6 +29,7 @@ function App() {
               <Route path = "/auth/login" element = {<LoginForm />} />
               <Route path = "/auth/request-password-reset" element = {<PasswordResetReqForm/>} />
               <Route path = "/auth/password-reset" element = {<PasswordResetForm />} />
+              <Route path = "/learning" element = {<Landing />} />
             </Routes>
           </div>
         </div>
