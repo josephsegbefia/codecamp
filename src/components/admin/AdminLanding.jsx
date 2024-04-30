@@ -6,6 +6,7 @@ import AllResources from './AllResources';
 import Create from './Create';
 import Settings from './Settings'
 import PublishedResources from './PublishedResources';
+import AddCourse from './AddCourse';
 
 
 const sideBarButtons = [
@@ -44,6 +45,7 @@ const AdminLanding = () => {
           {page === 'all-resources' && <AllResources />}
           {page === 'published' && <PublishedResources />}
           {page === 'settings' && <Settings />}
+          {page === 'create-course' && <AddCourse />}
         </div>
       </div>
     </div>
