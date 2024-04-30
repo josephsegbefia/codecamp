@@ -11,6 +11,7 @@ import LoginForm from './components/auth/LoginForm';
 import PasswordResetReqForm from './components/auth/PasswordResetReqForm';
 import PasswordResetForm from './components/auth/PasswordResetForm';
 import Landing from './components/userHome/Landing';
+import AdminLanding from './components/admin/AdminLanding';
 
 function App() {
   const routes = RoutesComp();
@@ -30,6 +31,7 @@ function App() {
               <Route path = "/auth/request-password-reset" element = {<PasswordResetReqForm/>} />
               <Route path = "/auth/password-reset" element = {<PasswordResetForm />} />
               <Route path = "/learning" element = {<Landing />} />
+              <Route path = "/admin/landing" element = {<AdminLanding />} />
             </Routes>
           </div>
         </div>
