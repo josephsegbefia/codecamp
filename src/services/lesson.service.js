@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-class CourseService {
+class LessonService {
   // Create a new instance of axios with a custom configuration
   constructor(){
     this.api = axios.create({
@@ -22,28 +22,25 @@ class CourseService {
     });
   }
 
-  createCourse = requestBody => {
-    return this.api.post('/api/courses/create', requestBody);
+  createLesson = (courseId, requestBody) => {
+    return this.api.post(`/api/courses/${courseId}/lessons/create`, requestBody);
   };
 
-  getCourses = () => {
-    return this.api.get('/api/courses');
+  getLessons = (courseId ) => {
+    return this.api.get(`/api/learn/courses/${courseId}/lessons`);
   };
 
-  getCourse = (courseId) => {
-    return this.api.get(`/api/courses/${courseId}`);
+
+  editLesson = (courseId, lessonId, requestBody) => {
+    return this.api.post(`/api/courses/${courseId}/lessons/${lessonId}`, requestBody);
   }
 
-  editCourse = (requestBody, courseId) => {
-    return this.api.post(`/api/courses/${courseId}/edit`, requestBody);
-  }
-
-  deleteCourse = (courseId) => {
-    return this.api.post(`/api/courses/${courseId}`);
+  deleteLesson = (courseId, lessonId ) => {
+    return this.api.post(`/api/courses/${courseId}/lessons/${lessonId}`);
   }
 
 }
 
-const courseService = new CourseService();
+const lessonService = new LessonService();
 
-export default courseService;
+export default lessonService;
