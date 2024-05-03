@@ -42,6 +42,10 @@ class CourseService {
     return this.api.post(`/api/courses/${courseId}`);
   }
 
+  searchCourse = (name) => {
+    return this.api.get(`/api/searchcourses?name=${name}`);
+  }
+
 }
 
 const courseService = new CourseService();

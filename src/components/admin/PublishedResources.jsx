@@ -9,4 +9,4 @@ const PublishedResources = () => {
   )
 }
 
-export default PublishedResources
+export default PublishedResources;
