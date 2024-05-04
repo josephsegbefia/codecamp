@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from "react";
 import courseService from "../../services/course.service";
 import Loader from "../notifications/Loader";
-
+import ReactDOM from "react-dom";
+import Editor from "../essential/Editor";
 import { LANGUAGE_VERSIONS } from "../../services/constants";
 
 const languages = Object.entries(LANGUAGE_VERSIONS);
@@ -183,12 +184,18 @@ const AddLesson = () => {
                 />
               </div>
             </div>
+            <div className="columns">
+              <div className="column">
+                <Editor />
+                {/* <Wysiwyg /> */}
+              </div>
+            </div>
             <div className="buttons">
               <button
                 type="submit"
                 className={`button is-primary ${isLoading ? "is-loading" : ""}`}
               >
-                Create Course
+                Create Lesson
               </button>
               <button type="button" className="button is-danger">
                 Cancel
