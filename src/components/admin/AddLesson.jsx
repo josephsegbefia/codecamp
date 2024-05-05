@@ -3,18 +3,35 @@ import React, { useState, useEffect } from "react";
 import courseService from "../../services/course.service";
 import Loader from "../notifications/Loader";
 import ReactDOM from "react-dom";
-import Editor from "../essential/Editor";
+import lessonService from "../../services/lesson.service";
+// import Editor from "../essential/Editor";
+import ReactQuill from "react-quill";
+import EditorToolbar, { modules, formats } from "../essential/EditorToolbar";
+import "react-quill/dist/quill.snow.css";
 import { LANGUAGE_VERSIONS } from "../../services/constants";
+import LessonSuccess from "../notifications/LessonSuccess";
 
 const languages = Object.entries(LANGUAGE_VERSIONS);
 
 const AddLesson = () => {
   const [courses, setCourses] = useState([]);
+  const [content, setContent] = useState("");
   const [searchVal, setSearchVal] = useState("");
   const [chosenCourse, setChosenCourse] = useState({});
   const [loadingCourses, setLoadingCourses] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  // Create lesson states
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [programmingLanguage, setProgrammingLanguage] = useState("");
+  const [level, setLevel] = useState("");
+  const [estimatedDuration, setEstimatedDuration] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [reload, setReload] = useState(false);
+  const [lessonId, setLessonId] = useState("");
 
   const searchCourse = (event) => {
     event.preventDefault();
@@ -29,7 +46,7 @@ const AddLesson = () => {
           setLoadingCourses(false);
         })
         .catch((error) => {
-          console.error("Error searching courses:", error);
+          // console.error("Error searching courses:", error);
           setLoadingCourses(false);
         });
     } else {
@@ -49,7 +66,42 @@ const AddLesson = () => {
     setSearchVal("");
   };
 
-  console.log(chosenCourse);
+  // Create Lesson
+  const createLesson = (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+
+    const requestBody = {
+      name,
+      description,
+      content,
+      level,
+      programmingLanguage,
+      estimatedDuration
+    };
+    const courseId = chosenCourse.id;
+    lessonService
+      .createLesson(courseId, requestBody)
+      .then((response) => {
+        setIsLoading(false);
+        setLessonId(response.data.createdLesson._id);
+        setSuccess(
+          "Lesson created. Do you want to create an exercise for this lesson."
+        );
+        // console.log(response);
+        setName("");
+        setDescription("");
+        setProgrammingLanguage("");
+        setLevel("");
+        setEstimatedDuration("");
+        setContent("");
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        console.log(error);
+      });
+  };
+
   return (
     <>
       {!showForm && (
@@ -104,7 +156,14 @@ const AddLesson = () => {
               </p>
             </div>
           </div>
-          <form>
+          <form onSubmit={createLesson}>
+            <div className="columns">
+              <div className="column">
+                {success && (
+                  <LessonSuccess message={success} lessonId={lessonId} />
+                )}
+              </div>
+            </div>
             <div className="columns">
               <div className="column">
                 <div className="field mb-4">
@@ -116,7 +175,7 @@ const AddLesson = () => {
                       type="text"
                       placeholder="Course name"
                       value={name}
-                      // onChange = {(e) => setName(e.target.value)}
+                      onChange={(e) => setName(e.target.value)}
                     />
                   </div>
                 </div>
@@ -128,8 +187,8 @@ const AddLesson = () => {
                 <div className="select is-fullwidth">
                   <select
                     required
-                    // value = {programmingLanguage}
-                    // onChange = {(e) => setProgrammingLanguage(e.target.value)}
+                    value={programmingLanguage}
+                    onChange={(e) => setProgrammingLanguage(e.target.value)}
                   >
                     <option>Programming Language</option>
                     {languages.map(([lang, version]) => (
@@ -145,8 +204,8 @@ const AddLesson = () => {
                 <div className="select is-fullwidth">
                   <select
                     required
-                    // value = {level}
-                    // onChange = {(e) => setLevel(e.target.value)}
+                    value={level}
+                    onChange={(e) => setLevel(e.target.value)}
                   >
                     <option>Level</option>
                     <option>Beginner</option>
@@ -165,8 +224,8 @@ const AddLesson = () => {
                       className="input is-primary"
                       type="text"
                       placeholder="Est. Duration in mins"
-                      // value = {estimatedDuration}
-                      // onChange = {(e) => setEstimatedDuration(e.target.value)}
+                      value={estimatedDuration}
+                      onChange={(e) => setEstimatedDuration(e.target.value)}
                     />
                   </div>
                 </div>
@@ -179,15 +238,24 @@ const AddLesson = () => {
                   required
                   className="textarea"
                   placeholder="Provide a brief description of the course"
-                  // value = {description}
-                  // onChange={(e) => setDescription(e.target.value)}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                 />
               </div>
             </div>
             <div className="columns">
               <div className="column">
-                <Editor />
-                {/* <Wysiwyg /> */}
+                <div className="text-editor">
+                  <EditorToolbar />
+                  <ReactQuill
+                    theme="snow"
+                    value={content}
+                    onChange={(value) => setContent(value)}
+                    placeholder={"Write something awesome..."}
+                    modules={modules}
+                    formats={formats}
+                  />
+                </div>
               </div>
             </div>
             <div className="buttons">
