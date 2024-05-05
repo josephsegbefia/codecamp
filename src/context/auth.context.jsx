@@ -4,25 +4,18 @@
 import React, { useState, useEffect, useCallback } from "react";
 import authService from "../services/auth.service";
 
-
-
-
-
 const AuthContext = React.createContext();
 
 function AuthProviderWrapper(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const [user, setUser] = useState(null);
 
-
-
-
-
   const storeToken = (token) => {
     localStorage.setItem("authToken", token);
-  }
+  };
 
   const authenticateUser = () => {
     // Get the stored token from the localStorage
@@ -32,46 +25,48 @@ function AuthProviderWrapper(props) {
     if (storedToken) {
       // We must send the JWT token in the request's "Authorization" Headers
 
-      authService.verify()
+      authService
+        .verify()
         .then((response) => {
           // If the server verifies that JWT token is valid
           const user = response.data;
-        // Update state variables
+          // Update state variables
           setIsLoggedIn(true);
           setIsLoading(false);
           setUser(user);
-      })
+          user?.isAdmin && setIsAdmin(true);
+        })
         .catch((error) => {
           // If the server sends an error response (invalid token)
           // Update state variables
           setIsLoggedIn(false);
           setIsLoading(false);
           setUser(null);
-      });
-
+          setIsAdmin(false);
+        });
     } else {
       // If the token is not available
       setIsLoggedIn(false);
       setIsLoading(false);
       setUser(null);
+      setIsAdmin(false);
     }
-  }
+  };
 
   const removeToken = () => {
     // Upon logout, remove the token from the localStorage
     localStorage.removeItem("authToken");
-  }
+  };
 
   const updateUser = useCallback((response) => {
-    localStorage.setItem('user', JSON.stringify(response));
+    localStorage.setItem("user", JSON.stringify(response));
     setUser(response);
-  })
+  });
 
   const logOutUser = () => {
     removeToken();
     authenticateUser();
-  }
-
+  };
 
   useEffect(() => {
     // Run the function after the initial render,
@@ -82,11 +77,20 @@ function AuthProviderWrapper(props) {
   // console.log(user);
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, isLoading, user, updateUser, storeToken, authenticateUser, logOutUser }}
+      value={{
+        isLoggedIn,
+        isLoading,
+        user,
+        isAdmin,
+        updateUser,
+        storeToken,
+        authenticateUser,
+        logOutUser
+      }}
     >
       {props.children}
     </AuthContext.Provider>
-  )
+  );
 }
 
 export { AuthProviderWrapper, AuthContext };
