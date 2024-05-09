@@ -28,7 +28,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     fetchCourses();
-  }, []);
+  }, [userId]);
 
   console.log(course);
 
@@ -54,7 +54,7 @@ const Dashboard = () => {
             <ProgressCard
               path={course.path}
               name={course.name}
-              lesson={course.lessons ? course.lesson[0] : "No lessons yet"}
+              // lesson={course.lessons ? course.lesson[0] : "No lessons yet"}
             />
           ) : (
             <p>
