@@ -20,7 +20,7 @@ const Learning = () => {
     try {
       const response = await courseService.getUserCourses(userId);
       setAllCourses(response.data.courses);
-      console.log(response.data.courses); // Log the fetched courses
+      console.log(response.data.courses);
     } catch (error) {
       console.log(error);
     } finally {
@@ -35,11 +35,17 @@ const Learning = () => {
   return (
     <div>
       <p className="title is-size-4">All your learning</p>
-      {/* <section className="container-accordion"> */}
-      <Accordion title={"React 101"} number={"1"}>
-        <p>Hello React</p>
-      </Accordion>
-      {/* </section> */}
+      {allCourses.map((course, index) => (
+        <div key={course._id} className="mb-4">
+          <Accordion number={index + 1} title={course.name}>
+            <p>{course.description}</p>
+            <div className="buttons">
+              <button className="button is-primary">Learn</button>
+              <button className="button is-danger">Unenrol</button>
+            </div>
+          </Accordion>
+        </div>
+      ))}
     </div>
   );
 };

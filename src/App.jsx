@@ -21,7 +21,7 @@ import IsPrivate from "./components/auth/IsPrivate";
 import IsAdmin from "./components/auth/IsAdmin";
 import IsAnon from "./components/auth/IsAnon";
 import AllResources from "./components/admin/AllResources";
-import Courses from "./components/programs/Courses";
+import Courses from "./components/NavComponents/Courses";
 
 function App() {
   const routes = RoutesComp();

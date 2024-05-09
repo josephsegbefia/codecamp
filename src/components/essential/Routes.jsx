@@ -1,24 +1,25 @@
 /* eslint-disable no-unused-vars */
-import React from 'react'
-import CourseCatalog from '../NavComponents/CourseCatalog';
-import Resources from '../NavComponents/Resources';
-import Blog from '../NavComponents/Blog';
-import LearningTips from '../NavComponents/LearningTips';
-import Pricing from '../NavComponents/Pricing'
+import React from "react";
+// import CourseC from "../NavComponents/CourseCatalog";
+import Courses from "../NavComponents/Courses";
+import Resources from "../NavComponents/Resources";
+import Blog from "../NavComponents/Blog";
+import LearningTips from "../NavComponents/LearningTips";
+import Pricing from "../NavComponents/Pricing";
 
 const Routes = () => {
   const routes = [
     {
       name: "Course Catalog",
-      url: "/catalog",
-      component: CourseCatalog
+      url: "/courses",
+      component: Courses
     },
     {
       name: "Resources",
       url: "/resources",
       exact: true,
       component: Resources,
-      subnav :[
+      subnav: [
         {
           name: "Blog",
           url: "/blog",
@@ -28,8 +29,7 @@ const Routes = () => {
           name: "Learning Tips",
           url: "/learningtips",
           component: LearningTips
-        },
-
+        }
       ]
     },
     {
@@ -42,4 +42,4 @@ const Routes = () => {
   return routes;
 };
 
-export default Routes
+export default Routes;
