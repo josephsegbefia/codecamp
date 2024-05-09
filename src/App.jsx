@@ -64,9 +64,9 @@ function App() {
               <Route
                 path="/learning"
                 element={
-                  <IsPrivate>
-                    <Landing />
-                  </IsPrivate>
+                  // <IsPrivate>
+                  <Landing />
+                  // </IsPrivate>
                 }
               />
               <Route

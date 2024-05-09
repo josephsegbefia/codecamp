@@ -52,7 +52,7 @@ const LoginForm = () => {
         // setSignInMessage("Sign in successful");
         // navigate("/learning?page=dashboard");
         setTimeout(() => {
-          navigate("/learning?page=dashboard");
+          navigate("/learning?page=learning");
         }, 100);
       })
       .catch((error) => {
