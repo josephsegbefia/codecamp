@@ -22,6 +22,7 @@ import IsAdmin from "./components/auth/IsAdmin";
 import IsAnon from "./components/auth/IsAnon";
 import AllResources from "./components/admin/AllResources";
 import Courses from "./components/NavComponents/Courses";
+import Lesson from "./components/learn/Lesson";
 
 function App() {
   const routes = RoutesComp();
@@ -78,6 +79,10 @@ function App() {
                 }
               />
               <Route path="/courses" element={<Courses />} />
+              <Route
+                path="/courses/users/:userId/courses/:courseId/lessons"
+                element={<Lesson />}
+              />
             </Routes>
           </div>
         </div>

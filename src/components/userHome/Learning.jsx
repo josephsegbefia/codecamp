@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/auth.context";
 import courseService from "../../services/course.service";
 import Accordion from "./Accordion";
@@ -10,10 +11,16 @@ const Learning = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { user, isAdmin, isLoggedIn } = useContext(AuthContext);
 
+  const navigate = useNavigate();
+
   let userId;
   if (user) {
     userId = user._id;
   }
+
+  const gotoLesson = (userId, courseId) => {
+    navigate(`/courses/users/${userId}/courses/${courseId}/lessons`);
+  };
 
   const fetchCourses = async () => {
     setIsLoading(true);
@@ -40,7 +47,12 @@ const Learning = () => {
           <Accordion number={index + 1} title={course.name}>
             <p>{course.description}</p>
             <div className="buttons">
-              <button className="button is-primary">Learn</button>
+              <button
+                className="button is-primary"
+                onClick={() => gotoLesson(userId, course._id)}
+              >
+                Learn
+              </button>
               <button className="button is-danger">Unenrol</button>
             </div>
           </Accordion>
